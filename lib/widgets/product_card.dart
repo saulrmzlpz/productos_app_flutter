@@ -1,8 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:productos_app_flutter/models/models.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({Key? key}) : super(key: key);
-
+  const ProductCard({Key? key, required this.product}) : super(key: key);
+  final Product product;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,11 +16,23 @@ class ProductCard extends StatelessWidget {
       width: double.maxFinite,
       child: Stack(
         alignment: Alignment.bottomLeft,
-        children: const [
-          _BackgroundImage(),
-          _ProductDetails(),
-          Positioned(top: 0, right: 0, child: _PriceTag()),
-          Positioned(top: 0, left: 0, child: _NotAvailable())
+        children: [
+          _BackgroundImage(
+            picture: product.picture,
+          ),
+          _ProductDetails(
+            name: product.name,
+            id: product.id,
+          ),
+          Positioned(
+              top: 0,
+              right: 0,
+              child: _PriceTag(
+                price: product.price,
+              )),
+          Visibility(
+              visible: !product.available,
+              child: const Positioned(top: 0, left: 0, child: _NotAvailable()))
         ],
       ),
     );
@@ -46,9 +61,10 @@ class _NotAvailable extends StatelessWidget {
       height: 70,
       decoration: BoxDecoration(
           color: Colors.yellow[800],
-          borderRadius: BorderRadius.only(bottomRight: Radius.circular(25))),
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: FittedBox(
+          borderRadius:
+              const BorderRadius.only(bottomRight: const Radius.circular(25))),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: const FittedBox(
         fit: BoxFit.contain,
         child: Text(
           'No disponible',
@@ -62,7 +78,9 @@ class _NotAvailable extends StatelessWidget {
 class _PriceTag extends StatelessWidget {
   const _PriceTag({
     Key? key,
+    required this.price,
   }) : super(key: key);
+  final double price;
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +91,10 @@ class _PriceTag extends StatelessWidget {
       decoration: const BoxDecoration(
           color: Colors.indigo,
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(25))),
-      child: const FittedBox(
+      child: FittedBox(
           fit: BoxFit.contain,
-          child: Text('\$103.99',
-              style: TextStyle(color: Colors.white, fontSize: 20))),
+          child: Text('\$$price',
+              style: const TextStyle(color: Colors.white, fontSize: 20))),
     );
   }
 }
@@ -84,27 +102,33 @@ class _PriceTag extends StatelessWidget {
 class _BackgroundImage extends StatelessWidget {
   const _BackgroundImage({
     Key? key,
+    this.picture,
   }) : super(key: key);
-
+  final String? picture;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.maxFinite,
       height: 400,
-      child: const FadeInImage(
-        placeholder: AssetImage('assets/jar-loading.gif'),
-        image: NetworkImage('https://via.placeholder.com/400x300'),
-        fit: BoxFit.cover,
-      ),
+      child: picture == null
+          ? Image(
+              image: AssetImage('assets/no-image.png'),
+              fit: BoxFit.cover,
+            )
+          : FadeInImage(
+              placeholder: const AssetImage('assets/jar-loading.gif'),
+              image: NetworkImage(picture!),
+              fit: BoxFit.contain,
+            ),
     );
   }
 }
 
 class _ProductDetails extends StatelessWidget {
-  const _ProductDetails({
-    Key? key,
-  }) : super(key: key);
-
+  const _ProductDetails({Key? key, required this.name, this.id})
+      : super(key: key);
+  final String name;
+  final String? id;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -116,16 +140,16 @@ class _ProductDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Disco duro G',
-            style: TextStyle(
+          Text(
+            name,
+            style: const TextStyle(
                 fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          const Text(
-            'Disco duro G',
-            style: TextStyle(
+          Text(
+            id ?? '',
+            style: const TextStyle(
               fontSize: 15,
               color: Colors.white,
             ),

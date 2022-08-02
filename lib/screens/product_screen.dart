@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:productos_app_flutter/services/services.dart';
 import 'package:productos_app_flutter/widgets/input_decoration.dart';
 import 'package:productos_app_flutter/widgets/widgets.dart';
+import 'package:provider/provider.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final productsServices = Provider.of<ProductsService>(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
