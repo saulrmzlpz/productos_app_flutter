@@ -11,15 +11,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Productos App',
-      initialRoute: 'login',
+      initialRoute: 'home',
       routes: {
         'login': (_) => const LoginScreen(),
         'home': (_) => const HomeScreen(),
+        'product': (_) => const ProductScreen(),
       },
       theme: ThemeData.light().copyWith(
           scaffoldBackgroundColor: Colors.grey[300],
-          colorScheme:
-              const ColorScheme.light().copyWith(primary: Colors.indigo)),
+          colorScheme: const ColorScheme.light().copyWith(
+            primary: Colors.indigo,
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+              backgroundColor: Colors.indigo, foregroundColor: Colors.white)),
     );
   }
 }
