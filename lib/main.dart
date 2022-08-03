@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
           colorScheme: const ColorScheme.light().copyWith(
             primary: Colors.indigo,
           ),
+          appBarTheme: const AppBarTheme(color: Colors.indigo),
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
               backgroundColor: Colors.indigo, foregroundColor: Colors.white)),
     );

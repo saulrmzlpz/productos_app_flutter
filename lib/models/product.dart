@@ -22,20 +22,24 @@ class Product {
   double price;
   String? id;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory Product.fromJson(String str) => Product.fromMap(json.decode(str));
+
+  String toJson() => json.encode(toMap());
+
+  factory Product.fromMap(Map<String, dynamic> json) => Product(
         available: json["available"],
         name: json["name"],
         picture: json["picture"],
         price: json["price"].toDouble(),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toMap() => {
         "available": available,
         "name": name,
         "picture": picture,
         "price": price,
       };
 
-  Product copy() =>
-      Product(available: available, name: name, picture: picture, price: price);
+  Product copy() => Product(
+      available: available, name: name, picture: picture, price: price, id: id);
 }
