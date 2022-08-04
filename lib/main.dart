@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productos_app_flutter/providers/notification_services.dart';
 import 'package:productos_app_flutter/screens/screens.dart';
 import 'package:productos_app_flutter/services/services.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,9 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ProductsService(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => AuthService(),
+        ),
       ],
       child: const MyApp(),
     );
@@ -27,11 +31,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      scaffoldMessengerKey: NotificationService.messengerKey,
       debugShowCheckedModeBanner: false,
       title: 'Productos App',
-      initialRoute: 'home',
+      initialRoute: 'login',
       routes: {
+        'checkAuth': (_) => const CheckAuthScreen(),
         'login': (_) => const LoginScreen(),
+        'register': (_) => const RegisterScreen(),
         'home': (_) => const HomeScreen(),
         'product': (_) => const ProductScreen(),
       },
@@ -40,6 +47,10 @@ class MyApp extends StatelessWidget {
           colorScheme: const ColorScheme.light().copyWith(
             primary: Colors.indigo,
           ),
+          textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)))),
           appBarTheme: const AppBarTheme(color: Colors.indigo),
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
               backgroundColor: Colors.indigo, foregroundColor: Colors.white)),

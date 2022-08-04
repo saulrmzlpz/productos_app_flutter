@@ -3,14 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:productos_app_flutter/providers/login_form_provider.dart';
 import 'package:productos_app_flutter/providers/notification_services.dart';
+import 'package:productos_app_flutter/services/services.dart';
 import 'package:productos_app_flutter/widgets/input_decoration.dart';
 import 'package:productos_app_flutter/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../services/services.dart';
-
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,8 @@ class LoginScreen extends StatelessWidget {
               CardContainer(
                 child: Column(children: [
                   const SizedBox(height: 10),
-                  Text('Ingreso', style: Theme.of(context).textTheme.headline4),
+                  Text('Crear cuenta',
+                      style: Theme.of(context).textTheme.headline4),
                   const SizedBox(height: 30),
                   ChangeNotifierProvider(
                       create: (_) => LoginFormProvider(),
@@ -33,9 +33,9 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 50),
               TextButton(
                   onPressed: () =>
-                      Navigator.pushReplacementNamed(context, 'register'),
+                      Navigator.pushReplacementNamed(context, 'login'),
                   child: const Text(
-                    'Crear una nueva cuenta',
+                    '¿Ya tienes una cuenta? Ir a login',
                     style: TextStyle(fontSize: 18),
                   )),
               const SizedBox(height: 50),
@@ -106,7 +106,7 @@ class _LoginForm extends StatelessWidget {
 
                       loginFormProvider.isLoading = true;
                       if (loginFormProvider.isFormValid()) {
-                        final errorMessage = await authService.login(
+                        final errorMessage = await authService.createUser(
                             email: loginFormProvider.email,
                             password: loginFormProvider.password);
                         if (errorMessage == null) {

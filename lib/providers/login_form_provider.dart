@@ -9,6 +9,11 @@ class LoginFormProvider extends ChangeNotifier {
 
   bool get isLoading => _isLoading;
 
+  set isLoading(bool status) {
+    _isLoading = status;
+    notifyListeners();
+  }
+
   String email = '';
   String password = '';
 
